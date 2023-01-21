@@ -97,6 +97,98 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "curso",
+			"item": [
+				{
+					"name": "listar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8002",
+							"host": [
+								"localhost"
+							],
+							"port": "8002"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "detalle",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8002/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8002",
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crear",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"{{$randomPhrase}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8002",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8002"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8002/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8002",
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

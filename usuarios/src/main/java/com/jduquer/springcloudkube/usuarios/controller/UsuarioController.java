@@ -34,7 +34,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@RequestBody Usuario usuario, @PathVariable Long id) {
+    public ResponseEntity<?> editar(@PathVariable Long id, @RequestBody Usuario usuario) {
         Optional<Usuario> optUsuario = usuarioService.porId(id);
         if (optUsuario.isPresent()) {
             usuario.setId(id);
