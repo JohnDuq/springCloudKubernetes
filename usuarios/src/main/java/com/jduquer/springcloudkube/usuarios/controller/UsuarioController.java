@@ -9,10 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/")
@@ -34,17 +31,27 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<?> crear(@RequestBody @Valid Usuario usuario, BindingResult bindingResult) {
+        if (usuarioService.porEmail(usuario.getEmail()).isPresent()) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("mensaje", "Ya existe un usuario con ese" +
+                    " email"));
+        }
         return bindingResult.hasErrors() ? administrarErrores(bindingResult) :
                 ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.guardar(usuario));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable Long id, @RequestBody @Valid Usuario usuario, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
+    public ResponseEntity<?> editar(@PathVariable Long id, @RequestBody @Valid Usuario usuario,
+                                    BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return administrarErrores(bindingResult);
         } else {
             Optional<Usuario> optUsuario = usuarioService.porId(id);
             if (optUsuario.isPresent()) {
+                if (!usuario.getEmail().equalsIgnoreCase(optUsuario.get().getEmail())
+                        && usuarioService.porEmail(usuario.getEmail()).isPresent()) {
+                    return ResponseEntity.badRequest().body(Collections.singletonMap("mensaje", "Ya existe un usuario" +
+                            " con ese email"));
+                }
                 usuario.setId(id);
                 return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.guardar(usuario));
             } else {
