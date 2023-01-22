@@ -2,12 +2,16 @@ package com.jduquer.springcloudkube.usuarios.controller;
 
 import com.jduquer.springcloudkube.usuarios.model.entity.Usuario;
 import com.jduquer.springcloudkube.usuarios.service.UsuarioService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -29,18 +33,23 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<?> crear(@RequestBody Usuario usuario) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.guardar(usuario));
+    public ResponseEntity<?> crear(@RequestBody @Valid Usuario usuario, BindingResult bindingResult) {
+        return bindingResult.hasErrors() ? administrarErrores(bindingResult) :
+                ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.guardar(usuario));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable Long id, @RequestBody Usuario usuario) {
-        Optional<Usuario> optUsuario = usuarioService.porId(id);
-        if (optUsuario.isPresent()) {
-            usuario.setId(id);
-            return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.guardar(usuario));
+    public ResponseEntity<?> editar(@PathVariable Long id, @RequestBody @Valid Usuario usuario, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return administrarErrores(bindingResult);
         } else {
-            return ResponseEntity.notFound().build();
+            Optional<Usuario> optUsuario = usuarioService.porId(id);
+            if (optUsuario.isPresent()) {
+                usuario.setId(id);
+                return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.guardar(usuario));
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         }
     }
 
@@ -53,6 +62,12 @@ public class UsuarioController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    private static ResponseEntity<Map<String, String>> administrarErrores(BindingResult bindingResult) {
+        Map<String, String> errores = new HashMap<>();
+        bindingResult.getFieldErrors().forEach(err -> errores.put(err.getField(), err.getDefaultMessage()));
+        return ResponseEntity.badRequest().body(errores);
     }
 
 }
