@@ -1,5 +1,6 @@
 package com.jduquer.springcloudkube.cursos.service.impl;
 
+import com.jduquer.springcloudkube.cursos.model.Usuario;
 import com.jduquer.springcloudkube.cursos.model.entity.Curso;
 import com.jduquer.springcloudkube.cursos.repository.CursoRepository;
 import com.jduquer.springcloudkube.cursos.service.CursoService;
@@ -38,6 +39,21 @@ public class CursoServiceImpl implements CursoService {
     @Transactional
     public void eliminar(Long id) {
         cursoRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Usuario> asignarUsuario(Long id, Usuario usuario) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Usuario> crearUsuario(Long cursoId, Usuario usuario) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Usuario> eliminarUsuario(Long cursoId, Usuario usuario) {
+        return Optional.empty();
     }
 
 }
