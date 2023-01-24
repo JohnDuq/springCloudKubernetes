@@ -1,5 +1,6 @@
 package com.jduquer.springcloudkube.usuarios.service.impl;
 
+import com.jduquer.springcloudkube.usuarios.client.CursoClientRest;
 import com.jduquer.springcloudkube.usuarios.model.entity.Usuario;
 import com.jduquer.springcloudkube.usuarios.repository.UsuarioRepository;
 import com.jduquer.springcloudkube.usuarios.service.UsuarioService;
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final CursoClientRest cursoClientRest;
 
     @Override
     @Transactional(readOnly = true)
@@ -38,11 +40,18 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public void eliminar(Long id) {
         usuarioRepository.deleteById(id);
+        cursoClientRest.eliminarCursoUsuarioPorId(id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<Usuario> porEmail(String email) {
         return usuarioRepository.findByEmail(email);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Usuario> listarPorIds(Iterable<Long> ids) {
+        return (List<Usuario>) usuarioRepository.findAllById(ids);
     }
 }

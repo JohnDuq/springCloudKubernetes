@@ -27,7 +27,7 @@ public class CursoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> detalle(@PathVariable Long id) {
-        Optional<Curso> optCurso = cursoService.porId(id);
+        Optional<Curso> optCurso = cursoService.porIdConUsuarios(id);
         return optCurso.isPresent() ? ResponseEntity.ok(optCurso.get()) : ResponseEntity.notFound().build();
     }
 
@@ -68,11 +68,11 @@ public class CursoController {
         Optional<Usuario> optionalUsuario;
         try {
             optionalUsuario = cursoService.asignarUsuario(id, usuario);
-        } catch (FeignException e){
+        } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("mensaje", "No existe " +
                     "el usuario por el id o error en la comunicación: " + e.getMessage()));
         }
-        if(optionalUsuario.isPresent()){
+        if (optionalUsuario.isPresent()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(optionalUsuario.get());
         }
         return ResponseEntity.notFound().build();
@@ -83,11 +83,11 @@ public class CursoController {
         Optional<Usuario> optionalUsuario;
         try {
             optionalUsuario = cursoService.crearUsuario(id, usuario);
-        } catch (FeignException e){
+        } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("mensaje", "No se pudo " +
                     "crear el usuario por el id o error en la comunicación: " + e.getMessage()));
         }
-        if(optionalUsuario.isPresent()){
+        if (optionalUsuario.isPresent()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(optionalUsuario.get());
         }
         return ResponseEntity.notFound().build();
@@ -102,12 +102,17 @@ public class CursoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("mensaje", "No existe " +
                     "el usuario por el id o error en la comunicación: " + e.getMessage()));
         }
-        if(optionalUsuario.isPresent()){
-            return ResponseEntity.status(HttpStatus.CREATED).body(optionalUsuario.get());
+        if (optionalUsuario.isPresent()) {
+            return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }
 
+    @DeleteMapping("/eliminar-curso-usuario/{id}")
+    public ResponseEntity<?> eliminarCursoUsuarioPorId(@PathVariable Long id) {
+        cursoService.eliminarCursoUsuarioPorId(id);
+        return ResponseEntity.noContent().build();
+    }
 
     private static ResponseEntity<Map<String, String>> administrarErrores(BindingResult bindingResult) {
         Map<String, String> errores = new HashMap<>();

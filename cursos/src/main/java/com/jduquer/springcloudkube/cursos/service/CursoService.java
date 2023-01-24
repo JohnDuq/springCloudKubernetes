@@ -10,8 +10,10 @@ public interface CursoService {
 
     List<Curso> listar();
     Optional<Curso> porId(Long id);
+    Optional<Curso> porIdConUsuarios(Long id);
     Curso guardar(Curso curso);
     void eliminar(Long id);
+    void eliminarCursoUsuarioPorId(Long id);
 
     Optional<Usuario> asignarUsuario(Long cursoId, Usuario usuario);
     Optional<Usuario> crearUsuario(Long cursoId, Usuario usuario);

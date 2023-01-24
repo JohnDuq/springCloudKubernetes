@@ -140,6 +140,54 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "usuariosPorCurso",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8001/usuarios-por-curso?ids=4,5,6",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"usuarios-por-curso"
+							],
+							"query": [
+								{
+									"key": "ids",
+									"value": "4,5,6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usuariosPorCurso Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8001/usuarios-por-curso?ids=4,5,6",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"usuarios-por-curso"
+							],
+							"query": [
+								{
+									"key": "ids",
+									"value": "4,5,6"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -167,13 +215,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8002/{{idCurso}}",
+							"raw": "localhost:8002/4",
 							"host": [
 								"localhost"
 							],
 							"port": "8002",
 							"path": [
-								"{{idCurso}}"
+								"4"
 							]
 						}
 					},
@@ -270,6 +318,118 @@
 							"port": "8002",
 							"path": [
 								"{{idCurso}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crearUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"{{$randomFirstName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{$randomAlphaNumeric}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8002/crear-usuario/{{idCurso}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8002",
+							"path": [
+								"crear-usuario",
+								"{{idCurso}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "asignarUsuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 8,\r\n    \"nombre\": \"Maximo\",\r\n    \"email\": \"Jacklyn55@yahoo.com\",\r\n    \"password\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8002/asignar-usuario/{{idCurso}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8002",
+							"path": [
+								"asignar-usuario",
+								"{{idCurso}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminarUsuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 13,\r\n    \"nombre\": \"Jessy\",\r\n    \"email\": \"Mavis.Murazik@yahoo.com\",\r\n    \"password\": \"b\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8002/eliminar-usuario/{{idCurso}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8002",
+							"path": [
+								"eliminar-usuario",
+								"{{idCurso}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminarCursoUsuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 13,\r\n    \"nombre\": \"Jessy\",\r\n    \"email\": \"Mavis.Murazik@yahoo.com\",\r\n    \"password\": \"b\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8002/eliminar-curso-usuario/8",
+							"host": [
+								"localhost"
+							],
+							"port": "8002",
+							"path": [
+								"eliminar-curso-usuario",
+								"8"
 							]
 						}
 					},
